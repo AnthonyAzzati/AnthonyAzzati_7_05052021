@@ -6,6 +6,7 @@
       <router-link v-if="!loggedIn" to="/login" class="button">
         Se connecter
       </router-link>
+
       <button v-else type="button" @click="logout">Se déconnecter</button>
     </div>
   </v-app-bar>
