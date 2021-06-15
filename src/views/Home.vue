@@ -1,18 +1,22 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <h1>Bienvenue sur le réseau social de Groupomania</h1>
+    <div v-if="!loggedIn">
+      Pour utiliser cette application vous devez
+      <router-link to="/login"> vous connecter </router-link>
+      ou
+      <router-link to="/signup"> vous enregistrer </router-link>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import { authComputed } from "../store/helpers"
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  computed: {
+    ...authComputed,
   },
-};
+}
 </script>
+
+<style lang="scss" scoped></style>
