@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # anthonyazzati_7_05052021
+=======
+# new
+>>>>>>> feat/API
 
 ## Project setup
 ```
