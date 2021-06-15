@@ -60,24 +60,6 @@ exports.signup = (req, res, next) => {
         "Le mot de passe doit contenir entre 8 et 60 caractères, au minimum 1 majuscule, au minimum 2 chiffres et ne doit pas contenir d'espaces.",
     })
   }
-
-  // if (checkPassword.validate(req.body.password)) {
-  //   db.query(
-  //     query.signup,
-  //     [email, password, username, role_id],
-  //     (error, results) => {
-  //       if (error) {
-  //         res.status(500).send({ message: error.message })
-  //       }
-  //       res.status(201).json(results)
-  //     }
-  //   )
-  // } else {
-  //   return res.status(400).json({
-  //     message:
-  //       "Le mot de passe doit contenir entre 8 et 60 caractères, au minimum 1 majuscule, au minimum 2 chiffres et ne doit pas contenir d'espaces.",
-  //   })
-  // }
 }
 
 exports.login = (req, res, next) => {
