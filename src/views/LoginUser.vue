@@ -4,6 +4,7 @@
       <v-card-title>
         <h1>Login</h1>
       </v-card-title>
+
       <v-card-text>
         <v-form @submit.prevent="login">
           <v-text-field
@@ -11,6 +12,7 @@
             label="Username"
             prepend-icon="mdi-account-circle"
           ></v-text-field>
+
           <v-text-field
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
@@ -19,11 +21,13 @@
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
           ></v-text-field>
+
           <v-card-actions>
             <v-btn type="submit" name="button">Se connecter</v-btn>
           </v-card-actions>
         </v-form>
       </v-card-text>
+
       <router-link to="/signup">
         Vous ne possédez pas encore de compte? Créez-en un.
       </router-link>
