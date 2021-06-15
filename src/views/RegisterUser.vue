@@ -4,6 +4,7 @@
       <v-card-title>
         <h1>S'inscrire</h1>
       </v-card-title>
+
       <v-card-text>
         <v-form @submit.prevent="signup">
           <v-text-field
@@ -12,6 +13,7 @@
             prepend-icon="mdi-account-circle"
             name="username"
           ></v-text-field>
+
           <v-text-field
             v-model="email"
             label="email"
@@ -19,6 +21,7 @@
             prepend-icon="mdi-email"
             name="email"
           ></v-text-field>
+
           <v-text-field
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
@@ -28,6 +31,7 @@
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
           ></v-text-field>
+
           <v-card-actions>
             <v-btn type="submit" name="button">S'inscrire</v-btn>
           </v-card-actions>
