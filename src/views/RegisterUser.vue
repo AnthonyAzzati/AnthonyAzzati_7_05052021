@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <v-card width="300" class="mx-auto mt-5 flex-column text-center">
-      <v-card-title>
-        <h1>S'inscrire</h1>
+  <v-container
+    class="d-flex flex-column justify-center align-center fill-height py-4"
+  >
+    <v-card
+      outlined
+      elevation="2"
+      class="d-flex flex-column text-center black--text"
+    >
+      <v-card-title class="d-flex justify-center">
+        <h3>S'inscrire</h3>
       </v-card-title>
 
-      <v-card-text>
+      <v-card-text class="py-0">
         <v-form @submit.prevent="signup">
           <v-text-field
             v-model="username"
-            label="username"
+            label="Nom d'utilisateur"
             prepend-icon="mdi-account-circle"
             name="username"
+            required
           ></v-text-field>
 
           <v-text-field
@@ -20,6 +27,7 @@
             type="email"
             prepend-icon="mdi-email"
             name="email"
+            required
           ></v-text-field>
 
           <v-text-field
@@ -27,22 +35,30 @@
             :type="showPassword ? 'text' : 'password'"
             label="password"
             name="password"
+            required
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
           ></v-text-field>
 
-          <v-card-actions>
-            <v-btn type="submit" name="button">S'inscrire</v-btn>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+              type="submit"
+              name="button"
+              class="info white--text"
+              elevation="3"
+              >S'inscrire</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card-text>
 
-      <router-link to="/login">
-        Vous possédez déjà un compte? Se connecter.
-      </router-link>
+      <div class="pa-2">
+        Vous possédez déjà un compte?
+        <router-link to="/login">Se connecter. </router-link>
+      </div>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script>
