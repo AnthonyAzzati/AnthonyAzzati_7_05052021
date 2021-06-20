@@ -1,44 +1,61 @@
 <template>
-  <div>
-    <v-card width="300" class="mx-auto mt-5 flex-column text-center">
-      <v-card-title>
-        <h1>Login</h1>
+  <v-container
+    class="d-flex flex-column justify-center align-center fill-height py-4"
+  >
+    <v-card
+      outlined
+      elevation="2"
+      class="d-flex flex-column text-center black--text"
+    >
+      <v-card-title class="d-flex justify-center">
+        <h3>Se connecter</h3>
       </v-card-title>
 
-      <v-card-text>
+      <v-card-text class="py-0">
         <v-form @submit.prevent="login">
           <v-text-field
             v-model="username"
-            label="Username"
+            name="username"
+            label="Nom d'utilisateur"
             prepend-icon="mdi-account-circle"
+            required
           ></v-text-field>
 
           <v-text-field
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
-            label="Password"
+            label="Mot de passe"
+            name="password"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
+            required
           ></v-text-field>
 
-          <v-card-actions>
-            <v-btn type="submit" name="button">Se connecter</v-btn>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+              type="submit"
+              name="button"
+              class="info white--text"
+              elevation="3"
+              >Se connecter</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card-text>
 
-      <router-link to="/signup">
-        Vous ne possédez pas encore de compte? Créez-en un.
-      </router-link>
+      <v-divider dark></v-divider>
+
+      <div class="pa-2"
+        >Vous ne possédez pas encore de compte?
+        <router-link to="/signup">Créez-en un.</router-link>
+      </div>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: "LoginUser",
-
   data() {
     return {
       username: "",
