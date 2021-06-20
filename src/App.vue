@@ -2,7 +2,9 @@
   <v-app>
     <AppNav />
     <v-main>
-      <router-view class="page" />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </v-main>
     <Footer />
   </v-app>
@@ -26,11 +28,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .page {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 250ms;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
