@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>GROUPOMANIA</h1>
+    <h2>GROUPOMANIA</h2>
   </div>
 </template>
 
