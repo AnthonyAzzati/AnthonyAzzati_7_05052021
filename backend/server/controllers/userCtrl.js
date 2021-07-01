@@ -60,24 +60,6 @@ exports.signup = (req, res, next) => {
         "Le mot de passe doit contenir entre 8 et 60 caractères, au minimum 1 majuscule, au minimum 2 chiffres et ne doit pas contenir d'espaces.",
     })
   }
-
-  // if (checkPassword.validate(req.body.password)) {
-  //   db.query(
-  //     query.signup,
-  //     [email, password, username, role_id],
-  //     (error, results) => {
-  //       if (error) {
-  //         res.status(500).send({ message: error.message })
-  //       }
-  //       res.status(201).json(results)
-  //     }
-  //   )
-  // } else {
-  //   return res.status(400).json({
-  //     message:
-  //       "Le mot de passe doit contenir entre 8 et 60 caractères, au minimum 1 majuscule, au minimum 2 chiffres et ne doit pas contenir d'espaces.",
-  //   })
-  // }
 }
 
 exports.login = (req, res, next) => {
@@ -91,21 +73,23 @@ exports.login = (req, res, next) => {
   db.query(query.login, [username], (error, results) => {
     if (error) {
       console.error(error)
+    } else {
+      bcrypt
+        .compare(password, results[0].password)
+        .then((valid) => {
+          if (!valid) {
+            return res.status(401).json({ error: "Mot de passe incorrect." })
+          } else {
+            return res.status(200).json({
+              id: results[0].id,
+              token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET_TOKEN", {
+                expiresIn: "24h",
+              }),
+            })
+          }
+        })
+        .catch((error) => res.status(500).send({ message: error.message }))
     }
-    bcrypt
-      .compare(password, results[0].password)
-      .then((valid) => {
-        if (valid) {
-          return res.status(200).json({
-            id: results[0].id,
-            token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET_TOKEN", {
-              expiresIn: "24h",
-            }),
-          })
-        }
-        return res.status(401).json({ error: "Mot de passe incorrect." })
-      })
-      .catch((error) => res.status(500).json({ error }))
   })
 }
 

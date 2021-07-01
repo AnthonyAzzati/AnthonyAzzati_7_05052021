@@ -12,12 +12,14 @@
       </v-card-title>
 
       <v-card-text class="py-0">
-        <v-form @submit.prevent="login">
+        <v-form @submit.prevent="login" v-model="formValidity">
           <v-text-field
             v-model="username"
             name="username"
             label="Nom d'utilisateur"
             prepend-icon="mdi-account-circle"
+            :rules="usernameRules"
+            color="deep-purple"
             required
           ></v-text-field>
 
@@ -29,6 +31,8 @@
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
+            :rules="passwordRules"
+            color="deep-purple"
             required
           ></v-text-field>
 
@@ -38,13 +42,14 @@
               name="button"
               class="info white--text"
               elevation="3"
+              :disabled="!formValidity"
               >Se connecter</v-btn
             >
           </v-card-actions>
         </v-form>
       </v-card-text>
 
-      <v-divider dark></v-divider>
+      <v-divider class="mt-2"></v-divider>
 
       <div class="pa-2"
         >Vous ne possédez pas encore de compte?
@@ -60,8 +65,19 @@ export default {
     return {
       username: "",
       password: "",
-      status: null,
+      connectionError: "",
       showPassword: false,
+      formValidity: false,
+      usernameRules: [
+        (value) =>
+          value.length >= 3 ||
+          "Le nom d'utilisateur doit contenir au minimum 3 caractères.",
+      ],
+      passwordRules: [
+        (value) =>
+          value.length >= 8 ||
+          "Le mot de passe doit contenir au minimum 8 caractères.",
+      ],
     }
   },
   methods: {
@@ -75,8 +91,7 @@ export default {
           this.$router.push({ name: "Dashboard" })
         })
         .catch((error) => {
-          this.status = error.response.status
-          console.error(error.response)
+          this.connectionError = error.response.data.message
         })
     },
   },

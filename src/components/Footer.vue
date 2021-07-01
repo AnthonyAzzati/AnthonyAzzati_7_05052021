@@ -8,7 +8,7 @@
         class="grey lighten-2 text-center black--text"
       >
         <v-card-text class="py-2">
-          <v-btn v-for="icon in icons" :key="icon" class="mx-2" icon>
+          <v-btn id="icon" v-for="icon in icons" :key="icon" class="mx-2" icon>
             <v-icon size="24px">
               {{ icon }}
             </v-icon>
@@ -41,4 +41,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#icon:hover {
+  color: #673ab7;
+}
+</style>

@@ -16,6 +16,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("../views/Profile.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/signup",
     name: "Signup",
     component: () => import("../views/RegisterUser.vue"),
@@ -28,7 +34,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: "history",
   base: process.env.BASE_URL,
   routes,
 })

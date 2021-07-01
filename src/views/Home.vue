@@ -13,9 +13,9 @@
 
     <div v-if="!loggedIn" class="pt-4">
       Pour utiliser cette application vous devez
-      <router-link to="/login"> vous connecter </router-link>
+      <router-link to="/login" class="link"> vous connecter </router-link>
       ou
-      <router-link to="/signup"> vous enregistrer.</router-link>
+      <router-link to="/signup" class="link"> vous enregistrer.</router-link>
     </div>
   </v-container>
 </template>
@@ -29,4 +29,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.link:hover {
+  color: #6b38fb;
+  transition: 150ms ease-in-out;
+}
+</style>

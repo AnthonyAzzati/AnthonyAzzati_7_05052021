@@ -1,7 +1,10 @@
 <template>
   <v-card class="mx-auto">
     <v-app-bar app color="grey lighten-2">
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click="drawer = true"
+        class="ml-sm-2 ml-md-4"
+      ></v-app-bar-nav-icon>
 
       <v-app-bar-title
         ><img
@@ -27,7 +30,18 @@
 
             <v-list-item v-if="loggedIn" class="my-4">
               <router-link to="/dashboard" class="link">
-                <v-list-item>Dashboard</v-list-item>
+                <v-list-item>Accueil</v-list-item>
+              </router-link>
+            </v-list-item>
+
+            <v-list-item v-if="loggedIn" class="my-4">
+              <router-link to="/profile" class="link">
+                <v-list-item
+                  ><v-avatar color="deep-purple">
+                    <v-icon dark>mdi-account-circle</v-icon>
+                  </v-avatar>
+                  <span class="ml-2">Mon profil</span>
+                </v-list-item>
               </router-link>
             </v-list-item>
 
@@ -77,5 +91,9 @@ img {
   text-decoration: none;
   color: black;
   font-weight: 700;
+}
+
+.link:focus {
+  color: #6b38fb;
 }
 </style>
