@@ -30,6 +30,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </div>
+
             <v-form @submit.prevent="createNewPost" v-model="formValidity">
               <v-textarea
                 v-model="title"
@@ -44,6 +45,7 @@
                 counter
                 required
               ></v-textarea>
+
               <v-textarea
                 v-model="text"
                 name="text"
@@ -64,15 +66,17 @@
                 class="d-flex justify-center align-center mt-2 py-0"
               >
                 <v-file-input
-                  v-model="file"
                   small-chips
-                  name="file"
+                  type="file"
+                  ref="file"
+                  name="imageUrl"
                   prepend-icon="mdi-image"
                   truncate-length="10"
                   color="deep-purple"
                   class="pr-4"
                   accept="image/png, image/jpeg, image/bmp, image/webp, image/gif, video/mp4"
                 ></v-file-input>
+
                 <v-btn
                   type="submit"
                   elevation="2"
@@ -96,12 +100,13 @@ export default {
   data: () => ({
     title: "",
     text: "",
-    file: [],
+    file: "",
     idUser: "",
     dialog: false,
     formValidity: false,
     postRules: [(value) => value.length > 0 || "Ce champ doit être rempli"],
   }),
+
   methods: {
     createNewPost() {
       let user = JSON.parse(localStorage.getItem("user"))
@@ -113,9 +118,7 @@ export default {
           file: this.file,
           idUser: this.idUser,
         })
-        .then(() => {
-          this.$router.push({ name: "Dashboard" })
-        })
+        .then(() => {})
         .catch((error) => {
           console.error(error)
         })

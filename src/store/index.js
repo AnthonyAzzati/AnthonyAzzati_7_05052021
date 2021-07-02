@@ -21,8 +21,7 @@ export default new Vuex.Store({
       localStorage.removeItem("user")
       location.reload()
     },
-    CREATE_NEW_POST(state, posts) {
-      state.posts = posts
+    CREATE_NEW_POST() {
       console.log("Post créé avec succès.")
     },
   },
@@ -47,11 +46,8 @@ export default new Vuex.Store({
       commit("CLEAR_USER_DATA")
     },
     createNewPost({ commit }, credentials) {
-      let token = this.state.user.token
       return axios
-        .post("//localhost:3000/api/post/createpost", credentials, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .post("//localhost:3000/api/post/createpost", credentials)
         .then(({ data }) => {
           console.log(data)
           commit("CREATE_NEW_POST", data)

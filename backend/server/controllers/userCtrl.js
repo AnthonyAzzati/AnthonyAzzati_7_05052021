@@ -37,7 +37,7 @@ exports.signup = (req, res, next) => {
     email: req.body.email,
     password: hash,
   }
-  const token = jwt.sign({ user }, "RANDOM_SECRET_KEY")
+  const token = jwt.sign({ user }, "RANDOM_SECRET")
 
   if (checkPassword.validate(req.body.password)) {
     db.query(
@@ -82,7 +82,7 @@ exports.login = (req, res, next) => {
           } else {
             return res.status(200).json({
               id: results[0].id,
-              token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET_TOKEN", {
+              token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET", {
                 expiresIn: "24h",
               }),
             })

@@ -27,7 +27,12 @@ exports.createComment = (req, res, next) => {
   })
 
   db.query(query.createComment),
-    [PostComment.idPost, PostComment.idUser, PostComment.text, PostComment.imageUrl],
+    [
+      PostComment.idPost,
+      PostComment.idUser,
+      PostComment.text,
+      PostComment.imageUrl,
+    ],
     (error, results) => {
       if (error) {
         res.status(400).json({ error })
@@ -38,7 +43,7 @@ exports.createComment = (req, res, next) => {
 
 exports.deleteComment = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]
-  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
+  const decodedToken = jwt.verify(token, "RANDOM_SECRET")
   const userId = decodedToken.userId
   const roleId = decondedToken.roleId
   const commentId = req.query.commentId
@@ -48,7 +53,9 @@ exports.deleteComment = (req, res, next) => {
       [commentId],
       (error, results) => {
         if (error) {
-          res.status(401).json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
+          res
+            .status(401)
+            .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
         }
         res.status(201).json({ message: "Commentaire supprimé." })
       }
@@ -60,7 +67,9 @@ exports.deleteComment = (req, res, next) => {
       if (data[0].id_user == userId) {
         deleteCom()
       } else {
-        return res.status(401).send({ message: "Vous ne pouvvez pas supprimer ce commentaire" })
+        return res
+          .status(401)
+          .send({ message: "Vous ne pouvvez pas supprimer ce commentaire" })
       }
     }
 }
