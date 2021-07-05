@@ -5,6 +5,7 @@ const fs = require("fs")
 const Post = require("../models/PostModel")
 const query = require("../../config/query")
 
+// Créer un post
 exports.createPost = (req, res, next) => {
   const CreatePost = new Post({
     title: req.body.title,
@@ -30,11 +31,10 @@ exports.createPost = (req, res, next) => {
   )
 }
 
-exports.modifyPost = (req, res, next) => {}
-
+// Récupérer tout les posts
 exports.getAllPosts = (req, res, next) => {
   db.query(query.getAllPosts),
-    (error, results) => {
+    (error, results, fields) => {
       if (error) {
         return res.status(500).json({ error })
       }
@@ -42,6 +42,7 @@ exports.getAllPosts = (req, res, next) => {
     }
 }
 
+// Supprime un post
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]
   const decodedToken = jwt.verify(token, "RANDOM_SECRET")

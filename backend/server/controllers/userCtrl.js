@@ -8,6 +8,9 @@ const passwordValidator = require("password-validator")
 
 const query = require("../../config/query")
 
+// Vérifie que le mot de passe a entre 8 et 60 caractères
+// au moins 1 Majuscule, 1 minuscule, 1 chiffre
+// ne contient pas d'espace
 const checkPassword = new passwordValidator()
 checkPassword
   .is()
@@ -24,6 +27,7 @@ checkPassword
   .not()
   .spaces()
 
+// Enregistre l'utilisateur
 exports.signup = (req, res, next) => {
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(req.body.password, salt)
@@ -62,6 +66,7 @@ exports.signup = (req, res, next) => {
   }
 }
 
+// Permet de connecter l'utilisateur
 exports.login = (req, res, next) => {
   const username = req.body.username
   const password = req.body.password
@@ -93,6 +98,7 @@ exports.login = (req, res, next) => {
   })
 }
 
+// Supprime l'utilisateur
 exports.deleteUser = (req, res, next) => {
   const id = req.body.id
 

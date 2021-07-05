@@ -4,6 +4,7 @@ const db = require("../../config/dabatase")
 const Comment = require("../models/CommentModel")
 const query = require("../../config/query")
 
+// Récupère tout les commentaires
 exports.getAllComments = (req, res, next) => {
   const postId = req.body.postId
   db.query(query.getAllComments),
@@ -16,6 +17,7 @@ exports.getAllComments = (req, res, next) => {
     }
 }
 
+// Créer un commentaire
 exports.createComment = (req, res, next) => {
   const PostComment = new Comment({
     text: req.body.text,
@@ -41,11 +43,12 @@ exports.createComment = (req, res, next) => {
     }
 }
 
+// Supprime un commentaire
 exports.deleteComment = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]
   const decodedToken = jwt.verify(token, "RANDOM_SECRET")
   const userId = decodedToken.userId
-  const roleId = decondedToken.roleId
+  const roleId = decodedToken.roleId
   const commentId = req.query.commentId
 
   const deleteCom = () => {
@@ -61,6 +64,7 @@ exports.deleteComment = (req, res, next) => {
       }
   }
 
+  // Vérifie que l'utilisateur a les droits pour supprimer le commentaire
   db.query(query.getSpecificComment),
     [commentId],
     (error, data, fields) => {

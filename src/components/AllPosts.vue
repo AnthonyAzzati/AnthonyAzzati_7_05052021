@@ -92,7 +92,7 @@
             </div>
 
             <div class="d-flex">
-              <v-file-input
+              <!-- <v-file-input
                 v-model="imageUrl"
                 small-chips
                 accept="image/png, image/jpeg, image/bmp, image/webp, image/gif, video/mp4"
@@ -101,7 +101,7 @@
                 color="deep-purple"
                 class="mx-4 py-0"
                 required
-              ></v-file-input>
+              ></v-file-input> -->
 
               <v-btn
                 type="submit"
@@ -140,6 +140,10 @@
             >Afficher plus de commentaires</v-btn
           >
         </v-card>
+
+        <div>POSTS: {{ post }}</div>
+
+        <v-btn @click="getAllPosts()">Retrieve data</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -149,8 +153,23 @@
 export default {
   data() {
     return {
-      imageUrl: [],
+      imageUrl: "",
+      post: "",
     }
+  },
+
+  methods: {
+    getAllPosts() {
+      fetch("https://thatcopy.pw/catapi/rest/")
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error))
+
+      fetch("http://localhost:3000/api/post/getallposts")
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error))
+    },
   },
 }
 </script>

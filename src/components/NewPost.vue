@@ -75,7 +75,7 @@
                   truncate-length="10"
                   color="deep-purple"
                   class="pr-4"
-                  accept="image/png, image/jpeg, image/bmp, image/webp, image/gif, video/mp4"
+                  accept="image/png, image/jpeg, image/bmp, image/webp, image/gif"
                 ></v-file-input>
 
                 <v-btn
@@ -133,18 +133,6 @@ export default {
           console.log(data)
         })
         .catch((error) => console.log(error))
-
-      // this.$store
-      //   .dispatch("createNewPost", {
-      //     title: this.title,
-      //     text: this.text,
-      //     file: this.file,
-      //     idUser: this.idUser,
-      //   })
-      //   .then(() => {})
-      //   .catch((error) => {
-      //     console.error(error)
-      //   })
     },
   },
 }
