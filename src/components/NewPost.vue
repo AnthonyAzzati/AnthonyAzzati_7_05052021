@@ -67,9 +67,10 @@
               >
                 <v-file-input
                   small-chips
+                  @change="uploadFile"
                   type="file"
-                  ref="file"
-                  name="imageUrl"
+                  name="image"
+                  ref="imageInput"
                   prepend-icon="mdi-image"
                   truncate-length="10"
                   color="deep-purple"
@@ -96,32 +97,54 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   data: () => ({
     title: "",
     text: "",
-    file: "",
     idUser: "",
+    image: null,
     dialog: false,
     formValidity: false,
     postRules: [(value) => value.length > 0 || "Ce champ doit être rempli"],
   }),
 
   methods: {
+    uploadFile() {
+      this.image = this.$refs.imageInput.$refs.input.files[0]
+      console.log(this.image)
+      console.log(this.image.name)
+    },
     createNewPost() {
+      let formData = new FormData()
+
       let user = JSON.parse(localStorage.getItem("user"))
       this.idUser = user.id
-      this.$store
-        .dispatch("createNewPost", {
-          title: this.title,
-          text: this.text,
-          file: this.file,
-          idUser: this.idUser,
+
+      formData.append("title", this.title)
+      formData.append("text", this.text)
+      formData.append("image", this.image, this.image.name)
+      formData.append("idUser", this.idUser)
+
+      axios
+        .post("//localhost:3000/api/post/createpost", formData)
+        .then((data) => {
+          console.log(data)
         })
-        .then(() => {})
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch((error) => console.log(error))
+
+      // this.$store
+      //   .dispatch("createNewPost", {
+      //     title: this.title,
+      //     text: this.text,
+      //     file: this.file,
+      //     idUser: this.idUser,
+      //   })
+      //   .then(() => {})
+      //   .catch((error) => {
+      //     console.error(error)
+      //   })
     },
   },
 }

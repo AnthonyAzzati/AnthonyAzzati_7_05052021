@@ -21,9 +21,6 @@ export default new Vuex.Store({
       localStorage.removeItem("user")
       location.reload()
     },
-    CREATE_NEW_POST() {
-      console.log("Post créé avec succès.")
-    },
   },
   actions: {
     signup({ commit }, credentials) {
@@ -44,15 +41,6 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit("CLEAR_USER_DATA")
-    },
-    createNewPost({ commit }, credentials) {
-      return axios
-        .post("//localhost:3000/api/post/createpost", credentials)
-        .then(({ data }) => {
-          console.log(data)
-          commit("CREATE_NEW_POST", data)
-        })
-        .catch((error) => console.error(error))
     },
   },
   getters: {

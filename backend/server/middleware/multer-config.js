@@ -1,6 +1,5 @@
-"use strict"
-
 const multer = require("multer")
+const path = require("path")
 
 const MIME_TYPES = {
   "image/jpg": "jpg",
@@ -8,13 +7,13 @@ const MIME_TYPES = {
   "image/png": "png",
   "image/gif": "gif",
   "image/webp": "webp",
-  "video/mp4": "mp4",
 }
 
 // permet de changer le nom du fichier en rajoutant la date de l'upload du fichier pour qu'il soit unique
+
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "images")
+    callback(null, path.join(__dirname + "../.." + "/images/"))
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(" ").join("_")

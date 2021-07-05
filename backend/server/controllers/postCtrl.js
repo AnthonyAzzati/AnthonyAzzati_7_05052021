@@ -9,8 +9,10 @@ exports.createPost = (req, res, next) => {
   const CreatePost = new Post({
     title: req.body.title,
     text: req.body.text,
-    imageUrl: req.file
-      ? req.protocol + "://" + req.get("host") + "/images/" + req.file.filename
+    imageUrl: req.file.filename
+      ? `${req.protocol}://${req.get("host")}/server/images/${
+          req.file.filename
+        }`
       : null,
     idUser: req.body.idUser,
   })
@@ -20,6 +22,7 @@ exports.createPost = (req, res, next) => {
     [CreatePost.idUser, CreatePost.title, CreatePost.text, CreatePost.imageUrl],
     (error, results) => {
       if (error) {
+        console.error(error)
         res.status(500).json({ error })
       }
       return res.status(201).json({ message: "Votre post a bien été créé." })
