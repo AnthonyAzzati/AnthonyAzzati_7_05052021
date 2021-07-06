@@ -11,7 +11,7 @@ exports.createPost = (req, res, next) => {
     title: req.body.title,
     text: req.body.text,
     imageUrl: req.file.filename
-      ? `${req.protocol}://${req.get("host")}/server/images/${
+      ? `${req.protocol}://${req.get("host")}/backend/server/images/${
           req.file.filename
         }`
       : null,

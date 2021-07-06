@@ -38,7 +38,9 @@
               {{ post.text }}
             </p>
           </v-card-text>
-          <v-img :src="post.image_url" height="auto" width="auto"></v-img>
+          <v-img v-bind:src="post.image_url" height="auto" width="auto">
+            {{ post.image_url }}
+          </v-img>
 
           <div class="d-flex ma-4">
             <div class="mr-4">
