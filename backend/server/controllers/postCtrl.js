@@ -33,16 +33,15 @@ exports.createPost = (req, res, next) => {
 
 // Récupérer tout les posts
 exports.getAllPosts = (req, res, next) => {
-  db.query(query.getAllPosts),
-    (error, results, fields) => {
-      if (error) {
-        return res.status(500).json({ error })
-      }
-      return res.status(200).send({ results })
+  db.query(query.getAllPosts, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error })
     }
+    return res.status(200).json({ results })
+  })
 }
 
-// Supprime un post
+// Supprimer un post
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]
   const decodedToken = jwt.verify(token, "RANDOM_SECRET")

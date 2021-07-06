@@ -150,6 +150,8 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   data() {
     return {
@@ -160,14 +162,9 @@ export default {
 
   methods: {
     getAllPosts() {
-      fetch("https://thatcopy.pw/catapi/rest/")
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error))
-
-      fetch("http://localhost:3000/api/post/getallposts")
-        .then((response) => response.json())
-        .then((data) => console.log(data))
+      axios
+        .get("http://localhost:3000/api/post/getallposts")
+        .then((response) => console.log(response.data))
         .catch((error) => console.error(error))
     },
   },
