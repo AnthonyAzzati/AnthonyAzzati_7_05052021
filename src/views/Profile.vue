@@ -6,9 +6,9 @@
           <v-icon dark large>mdi-account-circle</v-icon>
         </v-avatar>
 
-        <h3 class="mt-4 text-uppercase">Test</h3>
+        <h3 class="mt-4 text-uppercase">{{ username }}</h3>
 
-        <p class="mt-2">test@email.com</p>
+        <p class="mt-2">{{ email }}</p>
 
         <v-dialog v-model="dialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
@@ -26,7 +26,8 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </div>
-            <v-form @submit.prevent="updateUserProfile" v-model="formValidity">
+
+            <v-form @submit.prevent="updateUserAccount" v-model="formValidity">
               <v-textarea
                 v-model="username"
                 name="username"
@@ -81,11 +82,16 @@
           </v-card>
         </v-dialog>
 
-        <v-btn rounded color="red" class="mt-4 white--text">
+        <v-btn
+          rounded
+          color="red"
+          class="mt-4 white--text"
+          @click="deleteUserAccount()"
+        >
           Supprimer mon compte
         </v-btn>
 
-        <v-alert dense outlined type="error" class="mt-2">
+        <v-alert dense outlined type="error" class="mt-4">
           La suppression de votre compte est <strong>définitive</strong> et
           <strong>irréversible.</strong>
         </v-alert>
@@ -95,21 +101,62 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   data() {
     return {
+      user: "",
       username: "",
       email: "",
+      idUser: "",
       profilePicture: [],
       dialog: false,
       formValidity: false,
     }
+  },
+
+  mounted() {
+    let user = JSON.parse(localStorage.getItem("user"))
+    this.user = user
+    this.username = user.username
+    this.email = user.email
+    this.idUser = user.id
+  },
+
+  methods: {
+    updateUserAccount() {
+      axios
+        .put("//localhost:3000/api/user/update", {
+          data: {
+            username: this.username,
+            email: this.email,
+            id: this.idUser,
+          },
+        })
+        .then(() => {
+          console.log(this.user)
+          window.location.reload()
+        })
+        .catch((error) => console.error(error))
+    },
+
+    deleteUserAccount() {
+      axios
+        .delete("//localhost:3000/api/user/delete", {
+          data: {
+            id: this.idUser,
+          },
+        })
+        .then(() => this.$store.dispatch("logout"))
+        .catch((error) => console.error(error))
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 #account {
-  height: 60vh;
+  height: 70vh;
 }
 </style>

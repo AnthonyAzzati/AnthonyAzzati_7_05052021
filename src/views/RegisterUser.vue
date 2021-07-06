@@ -109,7 +109,7 @@ export default {
           username: this.username,
         })
         .then(() => {
-          this.$router.push({ name: "Dashboard" })
+          this.$router.push({ name: "Login" })
         })
         .catch((error) => {
           this.passwordError = error.response.data.message

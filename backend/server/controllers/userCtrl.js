@@ -90,11 +90,28 @@ exports.login = (req, res, next) => {
               token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET", {
                 expiresIn: "24h",
               }),
+              username: results[0].username,
+              email: results[0].email,
             })
           }
         })
         .catch((error) => res.status(500).send({ message: error.message }))
     }
+  })
+}
+
+// Modifie les données du compte de l'utilisateur
+exports.updateAccount = (req, res, next) => {
+  const email = req.body.data.email
+  const username = req.body.data.username
+  const id = req.body.data.id
+
+  db.query(query.updateAccount, [email, username, id], (error, results) => {
+    if (error) {
+      console.error(error)
+      return res.status(400).json({ error })
+    }
+    return res.status(200).json({ results })
   })
 }
 
@@ -104,6 +121,7 @@ exports.deleteUser = (req, res, next) => {
 
   db.query(query.deleteUser, [id], (error, results) => {
     if (error) {
+      console.error(error)
       return res.status(400).json({ error })
     }
     return res.status(200).json({ results })

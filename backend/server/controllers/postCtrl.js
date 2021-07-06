@@ -16,11 +16,18 @@ exports.createPost = (req, res, next) => {
         }`
       : null,
     idUser: req.body.idUser,
+    username: req.body.username,
   })
 
   db.query(
     query.createPost,
-    [CreatePost.idUser, CreatePost.title, CreatePost.text, CreatePost.imageUrl],
+    [
+      CreatePost.idUser,
+      CreatePost.username,
+      CreatePost.title,
+      CreatePost.text,
+      CreatePost.imageUrl,
+    ],
     (error, results) => {
       if (error) {
         console.error(error)

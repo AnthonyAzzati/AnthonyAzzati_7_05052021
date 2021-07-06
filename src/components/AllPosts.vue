@@ -2,15 +2,30 @@
   <div>
     <v-row justify="center">
       <v-col cols="12" sm="6" class="pt-0">
-        <v-card outlined elevation="2" id="post--card" class="ma-4">
+        <v-card
+          v-for="(post, index) of posts"
+          :key="index"
+          outlined
+          elevation="2"
+          id="post--card"
+          class="ma-4"
+        >
           <v-card-title>
             <div class="d-flex">
               <v-avatar color="deep-purple">
                 <v-icon dark>mdi-account-circle</v-icon>
               </v-avatar>
               <div class="d-flex flex-column justify-center ml-2">
-                <p class="username">Anthony A.</p>
-                <p class="post--date">Posté le 28/06/21 à 9:41</p>
+                <p class="username">{{ post.post_username }}</p>
+                <p class="post--date">
+                  Posté le
+                  {{
+                    new Date(post.created_at).toLocaleDateString("fr-FR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  }}
+                </p>
               </div>
             </div>
           </v-card-title>
@@ -18,22 +33,12 @@
           <v-divider class="mx-2"></v-divider>
 
           <v-card-text>
-            <p id="post--title" class="mb-4">Titre du post</p>
+            <p id="post--title" class="mb-4">{{ post.title }}</p>
             <p id="post--content">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit
-              iste ipsa eius, quos repellat velit animi natus voluptatibus alias
-              doloremque! Maiores recusandae facere quaerat est ex sequi eveniet
-              repellat nisi! Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Aperiam sequi recusandae, animi expedita reprehenderit
-              exercitationem, nesciunt fugit culpa ratione tenetur cumque cum?
-              Hic quisquam error, consectetur illum animi corporis unde.
+              {{ post.text }}
             </p>
           </v-card-text>
-          <v-img
-            src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80"
-            height="auto"
-            width="auto"
-          ></v-img>
+          <v-img :src="post.image_url" height="auto" width="auto"></v-img>
 
           <div class="d-flex ma-4">
             <div class="mr-4">
@@ -66,55 +71,9 @@
                 <v-icon>mdi-thumb-down</v-icon>
               </v-btn>
             </div>
-
-            <v-btn text class="ma-2" color="deep-purple">
-              <v-icon left>mdi-message</v-icon>
-              Commenter
-            </v-btn>
           </div>
 
-          <v-form
-            @submit.prevent="publishComment"
-            class="d-flex flex-column justify-center pT-2 pr-2"
-          >
-            <div id="comment--wrapper" class="mt-2 mb-2 mx-4">
-              <v-textarea
-                rounded
-                single-line
-                auto-grow
-                rows="1"
-                hide-details="auto"
-                label="Ajouter un commentaire..."
-                color="deep-purple"
-                class="ma-0 pt-1"
-              >
-              </v-textarea>
-            </div>
-
-            <div class="d-flex">
-              <!-- <v-file-input
-                v-model="imageUrl"
-                small-chips
-                accept="image/png, image/jpeg, image/bmp, image/webp, image/gif, video/mp4"
-                name="imageUrl"
-                prepend-icon="mdi-image"
-                color="deep-purple"
-                class="mx-4 py-0"
-                required
-              ></v-file-input> -->
-
-              <v-btn
-                type="submit"
-                elevation="2"
-                rounded
-                color="deep-purple"
-                class="white--text"
-                >Publier</v-btn
-              >
-            </div>
-          </v-form>
-
-          <v-divider class="mx-4"></v-divider>
+          <NewComment />
 
           <div class="d-flex ma-4">
             <v-avatar color="deep-purple">
@@ -140,33 +99,39 @@
             >Afficher plus de commentaires</v-btn
           >
         </v-card>
-
-        <div>POSTS: {{ post }}</div>
-
-        <v-btn @click="getAllPosts()">Retrieve data</v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import NewComment from "./NewComment.vue"
+
 import axios from "axios"
 
 export default {
+  components: { NewComment },
   data() {
     return {
-      imageUrl: "",
-      post: "",
+      posts: [],
     }
   },
 
+  mounted() {
+    axios
+      .get("http://localhost:3000/api/post/getallposts")
+      .then((response) => (this.posts = response.data.results))
+      .catch((error) => console.error(error))
+
+    axios
+      .get()
+      .then()
+      .catch((error) => console.error(error))
+  },
+
   methods: {
-    getAllPosts() {
-      axios
-        .get("http://localhost:3000/api/post/getallposts")
-        .then((response) => console.log(response.data))
-        .catch((error) => console.error(error))
-    },
+    // Pour récupérer le username de tout les posts
+    // SELECT username FROM Users INNER JOIN Posts ON Users.id = Posts.id_user
   },
 }
 </script>
@@ -203,16 +168,5 @@ p {
 #post--content {
   font-size: 1rem;
   color: black;
-}
-
-#comment {
-  &--wrapper {
-    border: 1px solid grey;
-    border-radius: 28px;
-  }
-  &--date {
-    line-height: 1rem;
-    font-size: 1rem;
-  }
 }
 </style>

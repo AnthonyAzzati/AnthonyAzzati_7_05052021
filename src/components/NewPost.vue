@@ -104,6 +104,8 @@ export default {
     title: "",
     text: "",
     idUser: "",
+    username: "",
+    user: "",
     image: null,
     dialog: false,
     formValidity: false,
@@ -113,26 +115,28 @@ export default {
   methods: {
     uploadFile() {
       this.image = this.$refs.imageInput.$refs.input.files[0]
-      console.log(this.image)
-      console.log(this.image.name)
     },
     createNewPost() {
       let formData = new FormData()
 
       let user = JSON.parse(localStorage.getItem("user"))
       this.idUser = user.id
+      this.username = user.username
 
+      formData.append("idUser", this.idUser)
+      formData.append("username", this.username)
       formData.append("title", this.title)
       formData.append("text", this.text)
-      formData.append("image", this.image, this.image.name)
-      formData.append("idUser", this.idUser)
+      formData.append("image", this.image)
 
       axios
         .post("//localhost:3000/api/post/createpost", formData)
-        .then((data) => {
-          console.log(data)
+        .then(() => {
+          console.log("Post créé.")
         })
         .catch((error) => console.log(error))
+
+      window.location.reload()
     },
   },
 }

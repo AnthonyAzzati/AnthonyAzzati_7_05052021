@@ -10,6 +10,7 @@ const userCtrl = require("../controllers/userCtrl")
 // Routes liées à l'utilisateur
 router.post("/signup", userCtrl.signup)
 router.post("/login", userCtrl.login)
-router.delete("/", auth, userCtrl.deleteUser)
+router.put("/update", auth, userCtrl.updateAccount)
+router.delete("/delete", auth, userCtrl.deleteUser)
 
 module.exports = router

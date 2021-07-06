@@ -9,12 +9,15 @@ module.exports = {
   // Connecte l'utilisateur
   login: "SELECT * FROM Users WHERE username = ?",
 
+  // Modifie les données de l'utilisateur
+  updateAccount: "UPDATE Users SET email = ?, username = ? WHERE Users.id = ?",
+
   // Supprime l'utilisateur
   deleteUser: "DELETE FROM Users WHERE id = ?",
 
   // Créer un nouveau post
   createPost:
-    "INSERT INTO Posts (id_user, title, text, image_url, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())",
+    "INSERT INTO Posts (id_user, post_username, title, text, image_url, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())",
 
   // Récupère tout les posts
   getAllPosts: "SELECT * FROM Posts ORDER BY created_at DESC",
@@ -31,7 +34,7 @@ module.exports = {
 
   // Créer un commentaire
   createComment:
-    "INSERT INTO Comments (id_post, id_user, text, image_url, created_at) VALUES (?, ?, ?, ?, NOW()",
+    "INSERT INTO Comments (id_post, id_user, comment_username, text, image_url, created_at) VALUES (?, ?, ?, ?, ?, NOW()",
 
   // Récupère un commentaire en fonction de son id
   getSpecificComment:

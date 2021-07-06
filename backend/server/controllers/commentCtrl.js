@@ -26,12 +26,14 @@ exports.createComment = (req, res, next) => {
       : null,
     idPost: req.body.idPost,
     idUser: req.body.idUser,
+    username: req.body.username,
   })
 
   db.query(query.createComment),
     [
       PostComment.idPost,
       PostComment.idUser,
+      PostComment.username,
       PostComment.text,
       PostComment.imageUrl,
     ],
