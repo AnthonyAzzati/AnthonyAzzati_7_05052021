@@ -122,17 +122,9 @@ export default {
       .get("http://localhost:3000/api/post/getallposts")
       .then((response) => (this.posts = response.data.results))
       .catch((error) => console.error(error))
-
-    axios
-      .get()
-      .then()
-      .catch((error) => console.error(error))
   },
 
-  methods: {
-    // Pour récupérer le username de tout les posts
-    // SELECT username FROM Users INNER JOIN Posts ON Users.id = Posts.id_user
-  },
+  methods: {},
 }
 </script>
 

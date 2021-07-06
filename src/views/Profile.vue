@@ -135,8 +135,7 @@ export default {
           },
         })
         .then(() => {
-          console.log(this.user)
-          window.location.reload()
+          this.$store.dispatch("logout")
         })
         .catch((error) => console.error(error))
     },
