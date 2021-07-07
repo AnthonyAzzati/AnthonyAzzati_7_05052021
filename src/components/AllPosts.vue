@@ -11,23 +11,39 @@
           class="ma-4"
         >
           <v-card-title>
-            <div class="d-flex">
-              <v-avatar color="deep-purple">
-                <v-icon dark>mdi-account-circle</v-icon>
-              </v-avatar>
-              <div class="d-flex flex-column justify-center ml-2">
-                <p class="username">{{ post.post_username }}</p>
-                <p class="post--date">
-                  Posté le
-                  {{
-                    new Date(post.created_at).toLocaleDateString("fr-FR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  }}
-                </p>
+            <v-container
+              class="d-flex flex-fill pa-0 justify-space-between align-center"
+            >
+              <div class="d-flex">
+                <v-avatar color="deep-purple">
+                  <v-icon dark>mdi-account-circle</v-icon>
+                </v-avatar>
+
+                <div class="d-flex flex-column justify-center ml-2">
+                  <p class="username">{{ post.post_username }}</p>
+                  <p class="post--date">
+                    Posté le
+                    {{
+                      new Date(post.created_at).toLocaleDateString("fr-FR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    }}
+                  </p>
+                </div>
               </div>
-            </div>
+
+              <v-btn
+                class="deletePost--btn"
+                elevation="2"
+                fab
+                small
+                color="red"
+                @click="deletePost()"
+              >
+                <v-icon color="white">mdi-delete</v-icon>
+              </v-btn>
+            </v-container>
           </v-card-title>
 
           <v-divider class="mx-2"></v-divider>
@@ -38,8 +54,12 @@
               {{ post.text }}
             </p>
           </v-card-text>
-          <v-img v-bind:src="post.image_url" height="auto" width="auto">
-            {{ post.image_url }}
+          <v-img
+            v-bind:src="post.image_url"
+            max-height="400"
+            width="auto"
+            contain
+          >
           </v-img>
 
           <div class="d-flex ma-4">
@@ -119,14 +139,16 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     axios
       .get("http://localhost:3000/api/post/getallposts")
       .then((response) => (this.posts = response.data.results))
       .catch((error) => console.error(error))
   },
 
-  methods: {},
+  methods: {
+    deletePost() {},
+  },
 }
 </script>
 
