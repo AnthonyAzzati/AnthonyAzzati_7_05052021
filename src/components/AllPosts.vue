@@ -166,7 +166,7 @@
             </div>
           </div>
 
-          <v-btn text small class="ml-2 mb-2"
+          <v-btn text small class="ml-2 mb-2" @click="showComments()"
             >Afficher plus de commentaires</v-btn
           >
         </v-card>
@@ -182,6 +182,7 @@ export default {
   data() {
     return {
       posts: [],
+      comments: [],
       text: "",
       idUser: "",
       idPost: "",
@@ -223,11 +224,25 @@ export default {
       axios
         .post("//localhost:3000/api/comment/createcomment", formData)
         .then(() => {
-          console.log("Post créé.")
+          console.log("Commentaire créé.")
         })
         .catch((error) => console.log(error))
 
-      // window.location.reload()
+      window.location.reload()
+    },
+    showComments() {
+      axios
+        .get("http://localhost:3000/api/comment/comments", {
+          data: {
+            id: this.posts[0].id,
+          },
+        })
+        .then((response) => {
+          console.log(response)
+          this.comments = response.data.results
+          console.log(this.comments)
+        })
+        .catch((error) => console.error(error))
     },
   },
 }

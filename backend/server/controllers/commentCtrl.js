@@ -8,14 +8,12 @@ const jwt = require("jsonwebtoken")
 // Récupère tout les commentaires
 exports.getAllComments = (req, res, next) => {
   const postId = req.body.postId
-  db.query(query.getAllComments),
-    [postId],
-    (error, results) => {
-      if (error) {
-        return res.status(500).json({ error })
-      }
-      return res.status(200).send({ results })
+  db.query(query.getAllComments, [postId], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error })
     }
+    return res.status(200).send({ results })
+  })
 }
 
 // Créer un commentaire

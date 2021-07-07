@@ -34,7 +34,7 @@ module.exports = {
 
   // Créer un commentaire
   createComment:
-    "INSERT INTO Comments (id_post, id_user, comment_username, text, image_url, created_at) VALUES (?, ?, ?, ?, ?, NOW()",
+    "INSERT INTO Comments (id_post, id_user, comment_username, text, image_url, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
 
   // Récupère un commentaire en fonction de son id
   getSpecificComment:
