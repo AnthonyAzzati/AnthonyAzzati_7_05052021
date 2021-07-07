@@ -3,6 +3,7 @@
 const db = require("../../config/dabatase")
 const Comment = require("../models/CommentModel")
 const query = require("../../config/query")
+const jwt = require("jsonwebtoken")
 
 // Récupère tout les commentaires
 exports.getAllComments = (req, res, next) => {
@@ -20,16 +21,21 @@ exports.getAllComments = (req, res, next) => {
 // Créer un commentaire
 exports.createComment = (req, res, next) => {
   const PostComment = new Comment({
-    text: req.body.text,
-    imageUrl: req.file
-      ? req.protocol + "://" + req.get("host") + "/images/" + req.file.filename
-      : null,
     idPost: req.body.idPost,
     idUser: req.body.idUser,
+    text: req.body.text,
+    imageUrl: req.file.filename
+      ? `${req.protocol}://${req.get("host")}/backend/server/images/${
+          req.file.filename
+        }`
+      : null,
     username: req.body.username,
   })
 
-  db.query(query.createComment),
+  console.log(PostComment)
+
+  db.query(
+    query.createComment,
     [
       PostComment.idPost,
       PostComment.idUser,
@@ -43,6 +49,7 @@ exports.createComment = (req, res, next) => {
       }
       res.status(201).json({ message: "Votre commentaire a bien été créé." })
     }
+  )
 }
 
 // Supprime un commentaire
