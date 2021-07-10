@@ -1,30 +1,32 @@
 <template>
   <v-app>
-    <AppNav />
+    <!-- ==========   Navbar   ========= -->
+    <TheNavbar />
+
+    <!-- ==========   Main app   ========== -->
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
     </v-main>
-    <Footer />
+
+    <!-- ==========   Footer   ========== -->
+    <TheFooter />
   </v-app>
 </template>
 
 <script>
-import AppNav from "@/components/AppNav.vue"
-import Footer from "@/components/Footer.vue"
+// import des composants
+import TheNavbar from "@/components/TheNavbar.vue"
+import TheFooter from "@/components/TheFooter.vue"
 
 export default {
   components: {
-    AppNav,
-    Footer,
+    TheNavbar,
+    TheFooter,
   },
 
   name: "App",
-
-  data: () => ({
-    icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
-  }),
 }
 </script>
 

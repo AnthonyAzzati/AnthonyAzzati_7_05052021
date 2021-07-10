@@ -12,7 +12,7 @@
 
         <v-dialog v-model="dialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn rounded v-bind="attrs" v-on="on" class="mt-2">
+            <v-btn rounded disabled v-bind="attrs" v-on="on" class="mt-2">
               Modifier
             </v-btn>
           </template>

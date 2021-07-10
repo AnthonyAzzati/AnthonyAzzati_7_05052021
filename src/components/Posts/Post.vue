@@ -62,26 +62,7 @@
           >
           </v-img>
 
-          <div class="d-flex ma-4">
-            <div class="mr-4">
-              <v-icon left color="blue lighten-2" class="mr-0"
-                >mdi-thumb-up</v-icon
-              >
-              17
-            </div>
-            <div>
-              <v-icon left color="red lighten-2" class="mr-0"
-                >mdi-thumb-down</v-icon
-              >
-              4
-            </div>
-
-            <v-divider vertical class="mx-4"></v-divider>
-
-            <span>42 commentaires</span>
-          </div>
-
-          <v-divider class="mx-2 mt-4"></v-divider>
+          <v-divider class="mx-2 mt-6"></v-divider>
 
           <div class="d-flex justify-space-between">
             <div>
@@ -95,80 +76,11 @@
             </div>
           </div>
 
-          <div>
-            <v-form
-              @submit.prevent="publishComment"
-              class="d-flex flex-column justify-center pT-2 pr-2"
-            >
-              <div id="comment--wrapper" class="mt-2 mb-2 mx-4">
-                <v-textarea
-                  v-model="text"
-                  name="text"
-                  rounded
-                  single-line
-                  auto-grow
-                  rows="1"
-                  hide-details="auto"
-                  label="Ajouter un commentaire..."
-                  color="deep-purple"
-                  class="ma-0 pt-1"
-                >
-                </v-textarea>
-              </div>
+          <Comments />
 
-              <div class="d-flex">
-                <v-file-input
-                  @change="uploadFile"
-                  type="file"
-                  name="image"
-                  ref="imageInput"
-                  accept="image/png, image/jpeg, image/bmp, image/webp, image/gif"
-                  prepend-icon="mdi-image"
-                  color="deep-purple"
-                  class="mx-4 py-0"
-                  small-chips
-                  required
-                ></v-file-input>
-
-                <v-btn
-                  type="submit"
-                  :id="post.id"
-                  :value="post.id"
-                  elevation="2"
-                  color="deep-purple"
-                  class="white--text"
-                  rounded
-                  >Publier</v-btn
-                >
-              </div>
-            </v-form>
-
-            <v-divider class="mx-4"></v-divider>
-          </div>
-
-          <div class="d-flex ma-4">
-            <v-avatar color="deep-purple">
-              <v-icon dark>mdi-account-circle</v-icon>
-            </v-avatar>
-
-            <div class="ml-2 pa-2 rounded grey lighten-3">
-              <div class="d-flex justify-space-between mb-2">
-                <p class="username">Username</p>
-                <p id="comment--date" class="grey--text">21/06/2021 9:41</p>
-              </div>
-
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Suscipit temporibus voluptates excepturi odit mollitia nesciunt
-                obcaecati recusandae natus quisquam, beatae facere culpa magni
-                itaque! Asperiores cum nihil saepe assumenda alias.
-              </p>
-            </div>
-          </div>
-
-          <v-btn text small class="ml-2 mb-2" @click="showComments()"
-            >Afficher plus de commentaires</v-btn
-          >
+          <v-btn text small class="ml-2 my-2" @click="showComments()">
+            Afficher les commentaires
+          </v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -177,8 +89,13 @@
 
 <script>
 import axios from "axios"
+import Comments from "@/components/Posts/Comments.vue"
 
 export default {
+  components: {
+    Comments,
+  },
+
   data() {
     return {
       posts: [],
@@ -218,9 +135,6 @@ export default {
       formData.append("text", this.text)
       formData.append("image", this.image)
 
-      const datata = [...formData.entries()]
-      console.log(datata)
-
       axios
         .post("//localhost:3000/api/comment/createcomment", formData)
         .then(() => {
@@ -232,14 +146,16 @@ export default {
     },
     showComments() {
       axios
-        .get("http://localhost:3000/api/comment/comments", {
-          data: {
+        .get("http://localhost:3000/api/comment/getallcomments", {
+          params: {
+            // voir pour récupèrer uniquement l'ID du POST, là il n'est récupéré que les commentaires du PREMIER post
+            // qui sont affichés sur TOUT les posts
             id: this.posts[0].id,
           },
         })
         .then((response) => {
-          console.log(response)
           this.comments = response.data.results
+          console.log(this.posts)
           console.log(this.comments)
         })
         .catch((error) => console.error(error))
@@ -283,6 +199,7 @@ p {
 }
 
 #comment {
+  width: fill-available;
   &--wrapper {
     border: 1px solid grey;
     border-radius: 28px;

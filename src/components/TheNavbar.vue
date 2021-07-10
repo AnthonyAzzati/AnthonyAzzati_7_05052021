@@ -1,4 +1,5 @@
 <template>
+  <!-- ==========   Navbar   ========== -->
   <v-card class="mx-auto">
     <v-app-bar app color="grey lighten-2">
       <v-app-bar-nav-icon
@@ -13,6 +14,7 @@
           width="150"
       /></v-app-bar-title>
 
+      <!-- ==========   Navigation Drawer   ========== -->
       <v-navigation-drawer
         v-model="drawer"
         absolute
@@ -65,14 +67,20 @@
 
 <script>
 import { authComputed } from "../store/helpers.js"
+
 export default {
+  // data
   data: () => ({
     drawer: false,
     group: null,
   }),
+
+  // computed
   computed: {
     ...authComputed,
   },
+
+  // methods
   methods: {
     logout() {
       this.$store.dispatch("logout")
