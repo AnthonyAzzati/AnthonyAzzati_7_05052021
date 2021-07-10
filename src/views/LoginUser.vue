@@ -93,7 +93,7 @@ export default {
           password: this.password,
         })
         .then(() => {
-          this.$router.push({ name: "Dashboard" })
+          this.$router.push({ name: "Homepage" })
         })
         .catch((error) => {
           this.connectionError = error.response.data.message

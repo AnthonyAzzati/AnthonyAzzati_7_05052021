@@ -7,12 +7,15 @@
         class="ml-sm-2 ml-md-4"
       ></v-app-bar-nav-icon>
 
-      <v-app-bar-title
-        ><img
-          src="../assets/icon-left-font-monochrome-black.svg"
-          alt="Logo de Groupomania"
-          width="150"
-      /></v-app-bar-title>
+      <v-app-bar-title>
+        <router-link to="/homepage">
+          <img
+            src="../assets/icon-left-font-monochrome-black.svg"
+            alt="Logo de Groupomania"
+            width="150"
+          />
+        </router-link>
+      </v-app-bar-title>
 
       <!-- ==========   Navigation Drawer   ========== -->
       <v-navigation-drawer
@@ -31,7 +34,7 @@
             </v-list-item>
 
             <v-list-item v-if="loggedIn" class="my-4">
-              <router-link to="/dashboard" class="link">
+              <router-link to="/homepage" class="link">
                 <v-list-item>Accueil</v-list-item>
               </router-link>
             </v-list-item>

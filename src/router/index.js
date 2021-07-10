@@ -10,9 +10,9 @@ const routes = [
     component: () => import("../views/Home.vue"),
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: () => import("../views/Dashboard.vue"),
+    path: "/homepage",
+    name: "Homepage",
+    component: () => import("../views/Homepage.vue"),
     meta: { requiresAuth: true },
   },
   {

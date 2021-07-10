@@ -146,7 +146,7 @@ export default {
       idPost: "",
       postText: "",
       username: "",
-      image: null,
+      image: "",
     }
   },
 
@@ -231,7 +231,6 @@ p {
 }
 
 #comment {
-  width: fill-available;
   &--wrapper {
     border: 1px solid grey;
     border-radius: 28px;
