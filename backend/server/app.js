@@ -5,6 +5,8 @@ const express = require("express")
 const path = require("path")
 const helmet = require("helmet")
 const cors = require("cors")
+const history = require("connect-history-api-fallback")
+
 const app = express()
 
 // importation des routes du projet
@@ -25,6 +27,9 @@ app.use(express.json())
 app.use("/api/user", usersRoutes)
 app.use("/api/post", postsRoutes)
 app.use("/api/comment", commentsRoutes)
+
+// permet l'utilisation du mode history de VueJS
+app.use(history())
 
 // permet d'utiliser les images stockées dans backend/server/images
 app.use(

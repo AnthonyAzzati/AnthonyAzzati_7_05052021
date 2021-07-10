@@ -49,10 +49,10 @@ CREATE TABLE `Users`(
 CREATE TABLE `Posts` (
  `id`           SMALLINT       UNSIGNED  PRIMARY KEY  AUTO_INCREMENT,
  `id_user`      SMALLINT       UNSIGNED  NOT NULL,
- `post_username`VARCHAR(60)                 NOT NULL, 
+ `post_username`VARCHAR(60)              NOT NULL, 
  `title`        TINYTEXT                 NOT NULL,
  `text`         TEXT,
- `image_url`    VARCHAR(255)             NOT NULL,
+ `image_url`    VARCHAR(255),
  `created_at`   DATETIME                 NOT NULL,
  `updated_at`   DATETIME                 NOT NULL,
  CONSTRAINT   `fk_posts_id_user`  FOREIGN KEY (`id_user`)   REFERENCES `Users` (`id`)
@@ -72,7 +72,7 @@ CREATE TABLE `Comments` (
  `id_user`     SMALLINT        UNSIGNED  NOT NULL,
  `comment_username` VARCHAR(60)          NOT NULL,
  `text`        TEXT,
- `image_url`   VARCHAR(255)              NOT NULL,
+ `image_url`   VARCHAR(255),
  `created_at`  DATETIME                  NOT NULL,
  CONSTRAINT   `fk_comments_id_post` FOREIGN KEY (`id_post`) REFERENCES `Posts` (`id`),
  CONSTRAINT   `fk_comments_id_user` FOREIGN KEY (`id_user`) REFERENCES `Users` (`id`)
