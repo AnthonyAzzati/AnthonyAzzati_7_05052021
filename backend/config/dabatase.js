@@ -1,5 +1,6 @@
 "use strict"
 
+// importation des packages
 const mysql = require("mysql2")
 const dbConfig = require("./config.js")
 

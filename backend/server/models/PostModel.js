@@ -1,5 +1,6 @@
 "user strict"
 
+// Modèle d'un post
 class Post {
   constructor(post) {
     this.title = post.title

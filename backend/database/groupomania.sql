@@ -22,6 +22,7 @@ CREATE TABLE `Roles`(
 
 
 
+
 -- ------------------------- --
 -- ------ TABLE Roles ------ --
 -- ------------------------- --
@@ -48,7 +49,7 @@ CREATE TABLE `Users`(
 CREATE TABLE `Posts` (
  `id`           SMALLINT       UNSIGNED  PRIMARY KEY  AUTO_INCREMENT,
  `id_user`      SMALLINT       UNSIGNED  NOT NULL,
- `username`     TINYYEXY                 NOT NULL, 
+ `post_username`VARCHAR(60)                 NOT NULL, 
  `title`        TINYTEXT                 NOT NULL,
  `text`         TEXT,
  `image_url`    VARCHAR(255)             NOT NULL,
@@ -69,6 +70,7 @@ CREATE TABLE `Comments` (
  `id`          MEDIUMINT       UNSIGNED  PRIMARY KEY  AUTO_INCREMENT,
  `id_post`     SMALLINT        UNSIGNED  NOT NULL,
  `id_user`     SMALLINT        UNSIGNED  NOT NULL,
+ `comment_username` VARCHAR(60)          NOT NULL,
  `text`        TEXT,
  `image_url`   VARCHAR(255)              NOT NULL,
  `created_at`  DATETIME                  NOT NULL,

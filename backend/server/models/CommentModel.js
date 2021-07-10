@@ -1,5 +1,6 @@
 "use strict"
 
+// Modèle d'un commentaire
 class Comment {
   constructor(comment) {
     this.text = comment.text

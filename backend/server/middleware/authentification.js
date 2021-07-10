@@ -1,5 +1,6 @@
 "use strict"
 
+// importation des packages
 const jwt = require("jsonwebtoken")
 
 // vérifie le token pour authentifier la connexion
