@@ -2,14 +2,7 @@
   <div>
     <v-row justify="center">
       <v-col cols="12" sm="6" class="pt-0">
-        <v-card
-          v-for="post of posts"
-          :key="post.id"
-          outlined
-          elevation="2"
-          id="post--card"
-          class="ma-4"
-        >
+        <v-card outlined elevation="2" id="post--card" class="ma-4">
           <v-card-title>
             <v-container
               class="d-flex flex-fill pa-0 justify-space-between align-center"
@@ -20,11 +13,11 @@
                 </v-avatar>
 
                 <div class="d-flex flex-column justify-center ml-2">
-                  <p class="username">{{ post.post_username }}</p>
+                  <p class="username">{{ post_username }}</p>
                   <p class="post--date">
                     Posté le
                     {{
-                      new Date(post.created_at).toLocaleDateString("fr-FR", {
+                      new Date(created_at).toLocaleDateString("fr-FR", {
                         hour: "2-digit",
                         minute: "2-digit",
                       })
@@ -49,17 +42,12 @@
           <v-divider class="mx-2"></v-divider>
 
           <v-card-text>
-            <p id="post--title" class="mb-4">{{ post.title }}</p>
+            <p id="post--title" class="mb-4">{{ title }}</p>
             <p id="post--content">
-              {{ post.text }}
+              {{ text }}
             </p>
           </v-card-text>
-          <v-img
-            v-bind:src="post.image_url"
-            max-height="400"
-            width="auto"
-            contain
-          >
+          <v-img :src="image_url" max-height="400" width="auto" contain>
           </v-img>
 
           <v-divider class="mx-2 mt-6"></v-divider>
@@ -76,11 +64,64 @@
             </div>
           </div>
 
-          <Comments />
+          <v-form
+            @submit.prevent="publishComment"
+            class="d-flex flex-column justify-center pT-2 pr-2"
+          >
+            <div id="comment--wrapper" class="mt-2 mb-2 mx-4">
+              <v-textarea
+                v-model="postText"
+                name="text"
+                rounded
+                single-line
+                auto-grow
+                rows="1"
+                hide-details="auto"
+                label="Ajouter un commentaire..."
+                color="deep-purple"
+                class="ma-0 pt-1"
+              >
+              </v-textarea>
+            </div>
+
+            <div class="d-flex">
+              <v-file-input
+                @change="uploadFile"
+                type="file"
+                name="image"
+                ref="imageInput"
+                accept="image/png, image/jpeg, image/bmp, image/webp, image/gif"
+                prepend-icon="mdi-image"
+                color="deep-purple"
+                class="mx-4 py-0"
+                truncate-length="10"
+                small-chips
+                required
+              ></v-file-input>
+
+              <v-btn
+                type="submit"
+                elevation="2"
+                color="deep-purple"
+                class="white--text"
+                rounded
+                >Publier</v-btn
+              >
+            </div>
+          </v-form>
 
           <v-btn text small class="ml-2 my-2" @click="showComments()">
             Afficher les commentaires
           </v-btn>
+
+          <Comments
+            v-for="comment in comments"
+            :key="comment.id"
+            :comment_username="comment.comment_username"
+            :created_at="comment.created_at"
+            :text="comment.text"
+            :image_url="comment.image_url"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -89,50 +130,43 @@
 
 <script>
 import axios from "axios"
-import Comments from "@/components/Posts/Comments.vue"
+import Comments from "@/components/Comments/Comments.vue"
 
 export default {
+  props: ["post_username", "created_at", "title", "text", "image_url"],
+
   components: {
     Comments,
   },
 
   data() {
     return {
-      posts: [],
       comments: [],
-      text: "",
       idUser: "",
       idPost: "",
+      postText: "",
       username: "",
       image: null,
     }
   },
 
-  created() {
-    axios
-      .get("http://localhost:3000/api/post/getallposts")
-      .then((response) => (this.posts = response.data.results))
-      .catch((error) => console.error(error))
-  },
-
   methods: {
     deletePost() {},
     uploadFile() {
-      this.image = this.$refs.imageInput[0].$refs.input.files[0]
+      this.image = this.$refs.imageInput.$refs.input.files[0]
     },
     publishComment() {
       let formData = new FormData()
-
       let user = JSON.parse(localStorage.getItem("user"))
+
       this.idUser = user.id
       this.username = user.username
-
-      this.idPost = this.posts[0].id
+      this.idPost = this.$vnode.key
 
       formData.append("idPost", this.idPost)
       formData.append("idUser", this.idUser)
       formData.append("username", this.username)
-      formData.append("text", this.text)
+      formData.append("text", this.postText)
       formData.append("image", this.image)
 
       axios
@@ -150,13 +184,11 @@ export default {
           params: {
             // voir pour récupèrer uniquement l'ID du POST, là il n'est récupéré que les commentaires du PREMIER post
             // qui sont affichés sur TOUT les posts
-            id: this.posts[0].id,
+            id: this.$vnode.key,
           },
         })
         .then((response) => {
           this.comments = response.data.results
-          console.log(this.posts)
-          console.log(this.comments)
         })
         .catch((error) => console.error(error))
     },
@@ -169,9 +201,21 @@ p {
   margin: 0;
 }
 
-#post--card {
-  border: 1px solid #bdbdbd;
-  border-radius: 5px;
+#post {
+  &--card {
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+  }
+  &--title {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: black;
+  }
+  &--content {
+    font-size: 1rem;
+    color: black;
+  }
 }
 
 .username {
@@ -184,18 +228,6 @@ p {
   line-height: 1rem;
   font-size: 14px;
   color: #757575;
-}
-
-#post--title {
-  text-transform: uppercase;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: black;
-}
-
-#post--content {
-  font-size: 1rem;
-  color: black;
 }
 
 #comment {

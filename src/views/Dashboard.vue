@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import NewPost from "@/components/NewPost.vue"
+import NewPost from "@/components/Posts/NewPost.vue"
 import Posts from "@/components/Posts/Posts.vue"
 
 export default {
