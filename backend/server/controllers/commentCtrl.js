@@ -7,6 +7,8 @@ const fs = require("fs")
 const path = require("path")
 const jwt = require("jsonwebtoken")
 
+require("dotenv").config()
+
 // Récupère tout les commentaires
 exports.getAllComments = (req, res, next) => {
   const idPost = req.query.id
@@ -64,7 +66,7 @@ exports.createComment = (req, res, next) => {
 exports.deleteComment = (req, res, next) => {
   // vérifie le token
   const token = req.headers.authorization.split(" ")[1]
-  const decodedToken = jwt.verify(token, "RANDOM_SECRET")
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN)
   const userId = decodedToken.userId
   const commentId = req.body.commentId
 

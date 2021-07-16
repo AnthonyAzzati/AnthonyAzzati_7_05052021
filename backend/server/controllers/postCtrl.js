@@ -8,6 +8,8 @@ const path = require("path")
 const Post = require("../models/PostModel")
 const query = require("../../config/query")
 
+require("dotenv").config()
+
 // Créer un post
 exports.createPost = (req, res, next) => {
   const CreatePost = new Post({
@@ -63,7 +65,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   // vérifie le token envoyé par le front
   const token = req.headers.authorization.split(" ")[1]
-  const decodedToken = jwt.verify(token, "RANDOM_SECRET")
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN)
   const userId = decodedToken.userId
   const roleId = decodedToken.roleId
   const postId = req.body.postId
