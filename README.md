@@ -42,6 +42,8 @@ Cloner le project
     
 Récupérer le fichier **process.env** disponible avec les livrables et le placer dans le dossier **backend** en le renommant **.env** (ne pas oublier le **point**).
 
+Dans le dossier **server** (situé dans le dossier **backend**) créer un dossier **images**.
+
 Dans le dossier **backend**
 ```bash
   npm install
