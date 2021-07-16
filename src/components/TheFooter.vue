@@ -8,7 +8,7 @@
         class="grey lighten-2 text-center black--text"
       >
         <v-card-text class="py-2">
-          <v-btn v-for="icon in icons" :key="icon" class="mx-2" icon>
+          <v-btn v-for="icon in icons" :key="icon.id" class="mx-2" icon>
             <a :href="icon.link" target="_blank">
               <v-icon size="24px" color="#673ab7">
                 {{ icon.name }}
