@@ -3,7 +3,7 @@
     <!-- ==========   Navbar   ========= -->
     <TheNavbar />
 
-    <!-- ==========   Main app   ========== -->
+    <!-- ==========   Main App   ========== -->
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view />

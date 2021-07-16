@@ -28,7 +28,7 @@ exports.createComment = (req, res, next) => {
     idUser: req.body.idUser,
     text: req.body.text,
     // enregistre l'image dans backend/server/images OU envoie NULL à la DB
-    imageUrl: req.file.filename
+    imageUrl: req.file
       ? `${req.protocol}://${req.get("host")}/backend/server/images/${
           req.file.filename
         }`

@@ -13,7 +13,7 @@ exports.createPost = (req, res, next) => {
     title: req.body.title,
     text: req.body.text,
     // vérifie qu'une image est envoyée par le front, récupère l'URL de stockage OU envoie NULL à la DB
-    imageUrl: req.file.filename
+    imageUrl: req.file
       ? `${req.protocol}://${req.get("host")}/backend/server/images/${
           req.file.filename
         }`
