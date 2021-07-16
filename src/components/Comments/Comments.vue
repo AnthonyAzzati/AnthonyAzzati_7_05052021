@@ -40,7 +40,7 @@
           </v-btn>
         </div>
 
-        <p class="mb-2">
+        <p>
           {{ text }}
         </p>
 
@@ -48,7 +48,7 @@
           v-bind:src="image_url"
           max-height="auto"
           id="comment--img"
-          class="mx-auto mb-2"
+          class="mx-auto my-2"
           contain
         >
         </v-img>
