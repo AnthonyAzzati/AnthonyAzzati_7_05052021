@@ -37,9 +37,8 @@ module.exports = {
     "INSERT INTO Comments (id_post, id_user, comment_username, text, image_url, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
 
   // Récupère un commentaire en fonction de son id
-  getSpecificComment:
-    "SELECT Comments.id_user FROM Comments WHERE Comments.id = ?",
+  getSpecificComment: "SELECT * FROM Comments WHERE Comments.id = ?",
 
   // Supprime un commentaire en fonction de son id
-  deleteComment: "DELETE FROM Comments WHERE id = ?",
+  deleteComment: "DELETE FROM Comments WHERE Comments.id = ?",
 }

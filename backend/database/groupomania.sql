@@ -20,7 +20,10 @@ CREATE TABLE `Roles`(
   ENGINE=INNODB
   DEFAULT CHARSET=utf8mb4;
 
-
+INSERT INTO `Roles` (`id`, `name`) VALUES
+(1, 'admin'),
+(2, 'moderator'),
+(3, 'user');
 
 
 -- ------------------------- --

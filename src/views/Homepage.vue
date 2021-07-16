@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- ==========   HomePage   ========== -->
     <NewPost />
 
     <Posts />

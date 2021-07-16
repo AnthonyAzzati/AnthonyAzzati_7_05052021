@@ -1,6 +1,6 @@
 {
   "name": "groupomania_backend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Backend du réseau social de Groupomania",
   "main": "server.js",
   "scripts": {

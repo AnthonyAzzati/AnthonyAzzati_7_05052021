@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken")
 const db = require("../../config/dabatase")
 const passwordValidator = require("password-validator")
 
+require("dotenv").config()
+
 // importation des requêtes préparées
 const query = require("../../config/query")
 
@@ -42,7 +44,7 @@ exports.signup = (req, res, next) => {
     email: req.body.email,
     password: hash,
   }
-  const token = jwt.sign({ user }, "RANDOM_SECRET")
+  const token = jwt.sign({ user }, process.env.JWT_TOKEN)
 
   // si le mot de passe vérifie les prérequis
   if (checkPassword.validate(req.body.password)) {
@@ -100,13 +102,14 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect." })
           }
-          // succès, retourne au front l'id utilisateur, le token, le username et l'email
+          // succès, retourne au front l'id utilisateur, le token, le role_id, le username et l'email
           else {
             return res.status(200).json({
               id: results[0].id,
-              token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET", {
+              token: jwt.sign({ id: results[0].id }, process.env.JWT_TOKEN, {
                 expiresIn: "24h",
               }),
+              roleId: results[0].role_id,
               username: results[0].username,
               email: results[0].email,
             })

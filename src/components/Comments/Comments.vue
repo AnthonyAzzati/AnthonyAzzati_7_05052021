@@ -10,22 +10,37 @@
       </v-avatar>
 
       <div id="comment" class="ml-2 pa-2 rounded grey lighten-3">
-        <div class="d-flex align-center justify-space-between mb-2">
-          <p class="username">
-            {{ comment_username }}
-          </p>
+        <div class="d-flex justify-space-between">
+          <div class="d-flex flex-column justify-space-between mb-2">
+            <p class="username">
+              {{ comment_username }}
+            </p>
 
-          <p id="comment--date" class="grey--text">
-            {{
-              new Date(created_at).toLocaleDateString("fr-FR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            }}
-          </p>
+            <p id="comment--date" class="grey--text">
+              {{
+                new Date(created_at).toLocaleDateString("fr-FR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              }}
+            </p>
+          </div>
+
+          <v-btn
+            v-if="
+              comment_username == this.$store.state.user.username ||
+              this.$store.state.user.roleId === 2
+            "
+            elevation="2"
+            fab
+            small
+            @click="deleteComment()"
+          >
+            <v-icon color="red">mdi-delete</v-icon>
+          </v-btn>
         </div>
 
-        <p class="mb-2">
+        <p>
           {{ text }}
         </p>
 
@@ -33,7 +48,7 @@
           v-bind:src="image_url"
           max-height="auto"
           id="comment--img"
-          class="mx-auto mb-2"
+          class="mx-auto my-2"
           contain
         >
         </v-img>
@@ -43,11 +58,29 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   props: ["comment_username", "created_at", "text", "image_url"],
 
   data() {
-    return {}
+    return {
+      id: this.$vnode.key,
+    }
+  },
+
+  methods: {
+    deleteComment() {
+      console.log(this.id)
+      axios
+        .delete("http://localhost:3000/api/comment/deletecomment", {
+          data: {
+            commentId: this.id,
+          },
+        })
+        .then(() => window.location.reload())
+        .catch((error) => console.error(error))
+    },
   },
 }
 </script>
