@@ -4,8 +4,11 @@
 const db = require("../../config/dabatase")
 const jwt = require("jsonwebtoken")
 const fs = require("fs")
+const path = require("path")
 const Post = require("../models/PostModel")
 const query = require("../../config/query")
+
+require("dotenv").config()
 
 // Créer un post
 exports.createPost = (req, res, next) => {
@@ -62,36 +65,33 @@ exports.getAllPosts = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   // vérifie le token envoyé par le front
   const token = req.headers.authorization.split(" ")[1]
-  const decodedToken = jwt.verify(token, "RANDOM_SECRET")
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN)
   const userId = decodedToken.userId
   const roleId = decodedToken.roleId
-  const postId = req.query.postId
+  const postId = req.body.postId
 
   // requête getSpecificPost
-  db.query(query.getSpecificPost),
-    [postId],
-    (error, data, fields) => {
-      // si erreur dans la suppression
-      if (error) {
-        res.status(401).send({
-          message: "Vous ne pouvez pas supprimer cette publication.",
-        })
-      }
-      const filename = data[0].image.split("/images/")[1]
-
-      // vérifie que l'utilisateur qui supprime le post est celui qui
-      // l'a créé OU l'utilisateur possède les droits Modérateur
-      if (roleId == 2 || data[0].id_user == userId) {
-        fs.unlink(`backend/server/images/${filename}`, () => {
-          db.query(query.deletePost),
-            [postId],
-            (error, data, fields) => {
-              if (error) {
-                return res.status(404).json({ error })
-              }
-              res.status(201).json({ message: "Publication supprimée" })
-            }
-        })
-      }
+  db.query(query.getSpecificPost, [postId], (error, data, fields) => {
+    // si erreur dans la suppression
+    if (error) {
+      res.status(401).send({
+        message: "Vous ne pouvez pas supprimer cette publication.",
+      })
     }
+
+    const filename = data[0].image_url.split("/backend/server/images/")[1]
+
+    fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
+      if (error) {
+        console.error(error)
+      } else {
+        db.query(query.deletePost, [postId], (error, data, fields) => {
+          if (error) {
+            return res.status(404).json({ error })
+          }
+          res.status(201).json({ message: "Publication supprimée" })
+        })
+      }
+    })
+  })
 }

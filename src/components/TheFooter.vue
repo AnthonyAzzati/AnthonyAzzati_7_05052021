@@ -8,10 +8,12 @@
         class="grey lighten-2 text-center black--text"
       >
         <v-card-text class="py-2">
-          <v-btn id="icon" v-for="icon in icons" :key="icon" class="mx-2" icon>
-            <v-icon size="24px">
-              {{ icon }}
-            </v-icon>
+          <v-btn v-for="icon in icons" :key="icon" class="mx-2" icon>
+            <a :href="icon.link" target="_blank">
+              <v-icon size="24px" color="#673ab7">
+                {{ icon.name }}
+              </v-icon>
+            </a>
           </v-btn>
         </v-card-text>
 
@@ -35,14 +37,20 @@
 export default {
   data() {
     return {
-      icons: ["mdi-github", "mdi-linkedin"],
+      icons: [
+        { name: "mdi-github", link: "https://github.com/AnthonyAzzati" },
+        {
+          name: "mdi-linkedin",
+          link: "https://www.linkedin.com/in/anthonyazzati/",
+        },
+      ],
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-#icon:hover {
-  color: #673ab7;
+a {
+  text-decoration: none;
 }
 </style>

@@ -14,6 +14,6 @@ const commentCtrl = require("../controllers/commentCtrl")
 // Routes liées aux commentaires
 router.get("/getallcomments", auth, commentCtrl.getAllComments)
 router.post("/createcomment", auth, multer, commentCtrl.createComment)
-router.delete("/deletecomment/:id", auth, commentCtrl.deleteComment)
+router.delete("/deletecomment", auth, commentCtrl.deleteComment)
 
 module.exports = router

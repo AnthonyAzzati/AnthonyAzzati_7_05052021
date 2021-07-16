@@ -27,14 +27,17 @@
               </div>
 
               <v-btn
+                v-if="
+                  post_username == this.$store.state.user.username ||
+                  this.$store.state.user.roleId === 2
+                "
                 class="deletePost--btn"
                 elevation="2"
                 fab
                 small
-                color="red"
                 @click="deletePost()"
               >
-                <v-icon color="white">mdi-delete</v-icon>
+                <v-icon color="red">mdi-delete</v-icon>
               </v-btn>
             </v-container>
           </v-card-title>
@@ -147,11 +150,21 @@ export default {
       postText: "",
       username: "",
       image: "",
+      id: this.$vnode.key,
     }
   },
 
   methods: {
-    deletePost() {},
+    deletePost() {
+      axios
+        .delete("http://localhost:3000/api/post/deletepost", {
+          data: {
+            postId: this.id,
+          },
+        })
+        .then(() => window.location.reload())
+        .catch((error) => console.error(error))
+    },
     uploadFile() {
       this.image = this.$refs.imageInput.$refs.input.files[0]
     },
