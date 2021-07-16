@@ -1,4 +1,6 @@
 "use strict"
+
+// Modèle d'un utilisateur
 class User {
   constructor(user) {
     this.email = user.email

@@ -1,4 +1,5 @@
 <template>
+  <!-- ==========   RegisterUser   ========== -->
   <v-container
     class="d-flex flex-column justify-center align-center fill-height py-4"
   >
@@ -65,6 +66,7 @@
 
       <v-divider class="mt-2"></v-divider>
 
+      <!-- Envoie vers la page LoginUser -->
       <div class="pa-2">
         Vous possédez déjà un compte?
         <router-link to="/login">Se connecter.</router-link>
@@ -75,6 +77,7 @@
 
 <script>
 export default {
+  // data
   data() {
     return {
       username: "",
@@ -100,6 +103,8 @@ export default {
       ],
     }
   },
+
+  // methods
   methods: {
     signup() {
       this.$store
@@ -109,7 +114,7 @@ export default {
           username: this.username,
         })
         .then(() => {
-          this.$router.push({ name: "Dashboard" })
+          this.$router.push({ name: "Login" })
         })
         .catch((error) => {
           this.passwordError = error.response.data.message

@@ -1,18 +1,19 @@
 <template>
   <div>
     <NewPost />
-    <AllPosts />
+
+    <Posts />
   </div>
 </template>
 
 <script>
-import NewPost from "@/components/NewPost.vue"
-import AllPosts from "@/components/AllPosts.vue"
+import NewPost from "@/components/Posts/NewPost.vue"
+import Posts from "@/components/Posts/Posts.vue"
 
 export default {
   components: {
     NewPost,
-    AllPosts,
+    Posts,
   },
 }
 </script>

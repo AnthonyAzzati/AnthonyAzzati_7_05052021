@@ -1,4 +1,5 @@
 <template>
+  <!-- Page d'accueil qui apparaît quand l'utilisateur arrive sur le site  -->
   <v-container
     class="
       d-flex
@@ -22,7 +23,9 @@
 
 <script>
 import { authComputed } from "../store/helpers"
+
 export default {
+  // computed
   computed: {
     ...authComputed,
   },
