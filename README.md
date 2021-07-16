@@ -26,7 +26,7 @@ Il s'agit du réseau social interne de l'entreprise fictive Groupomania.
   
 ## Demo
 
-L'application est hébergée et disponible à l'adresse suivante : https://groupomania.anthonyazzati.fr/
+L'application est hébergée et disponible à l'adresse suivante : https://www.groupomania.anthonyazzati.fr/
   
 ## Installation
 
