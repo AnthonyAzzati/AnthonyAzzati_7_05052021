@@ -44,7 +44,7 @@ Récupérer le fichier **process.env** disponible avec les livrables et le place
 
 Dans le dossier **server** (situé dans le dossier **backend**) créer un dossier **images**.
 
-Dans le dossier **backend**
+Dans le dossier **backend/server**
 ```bash
   npm install
   nodemon server
