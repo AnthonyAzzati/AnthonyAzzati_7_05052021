@@ -100,13 +100,14 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect." })
           }
-          // succès, retourne au front l'id utilisateur, le token, le username et l'email
+          // succès, retourne au front l'id utilisateur, le token, le role_id, le username et l'email
           else {
             return res.status(200).json({
               id: results[0].id,
               token: jwt.sign({ id: results[0].id }, "RANDOM_SECRET", {
                 expiresIn: "24h",
               }),
+              roleId: results[0].role_id,
               username: results[0].username,
               email: results[0].email,
             })
