@@ -3,6 +3,8 @@
 const db = require("../../config/dabatase")
 const Comment = require("../models/CommentModel")
 const query = require("../../config/query")
+const fs = require("fs")
+const path = require("path")
 const jwt = require("jsonwebtoken")
 
 // Récupère tout les commentaires
@@ -64,37 +66,49 @@ exports.deleteComment = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]
   const decodedToken = jwt.verify(token, "RANDOM_SECRET")
   const userId = decodedToken.userId
-  const roleId = decodedToken.roleId
-  const commentId = req.query.commentId
+  const commentId = req.body.commentId
 
-  const deleteCom = () => {
-    // requête deleteComment
-    db.query(query.deleteComment),
-      [commentId],
-      (error, results) => {
-        // erreur, retourne l'erreur
-        if (error) {
-          console.error(error)
-          res
-            .status(401)
-            .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
-        }
-        // succès, retourne la réponse
-        res.status(201).json({ message: "Commentaire supprimé." })
-      }
-  }
+  // const deleteCom = () => {
+  //   // requête deleteComment
+  //   db.query(query.deleteComment, [commentId], (error, results) => {
+  //     // erreur, retourne l'erreur
+  //     if (error) {
+  //       console.error(error)
+  //       res
+  //         .status(401)
+  //         .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
+  //     }
+  //     // succès, retourne la réponse
+  //     res.status(201).json({ message: "Commentaire supprimé." })
+  //   })
+  // }
 
   // Vérifie que l'utilisateur a les droits pour supprimer le commentaire
-  db.query(query.getSpecificComment),
-    [commentId],
-    (error, data, fields) => {
-      if (data[0].id_user == userId) {
-        // appel deleteCom()
-        deleteCom()
-      } else {
-        return res
-          .status(401)
-          .send({ message: "Vous ne pouvez pas supprimer ce commentaire" })
-      }
+  db.query(query.getSpecificComment, [commentId], (error, data, fields) => {
+    if (error) {
+      res.status(401).send({
+        message: "Vous ne pouvez pas supprimer cette publication.",
+      })
     }
+
+    const filename = data[0].image_url.split("/backend/server/images/")[1]
+
+    fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
+      if (error) {
+        console.error(error)
+      } else {
+        db.query(query.deleteComment, [commentId], (error, results) => {
+          // erreur, retourne l'erreur
+          if (error) {
+            console.error(error)
+            res
+              .status(401)
+              .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
+          }
+          // succès, retourne la réponse
+          res.status(201).json({ message: "Commentaire supprimé." })
+        })
+      }
+    })
+  })
 }

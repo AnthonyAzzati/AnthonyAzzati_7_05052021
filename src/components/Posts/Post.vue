@@ -150,11 +150,21 @@ export default {
       postText: "",
       username: "",
       image: "",
+      id: this.$vnode.key,
     }
   },
 
   methods: {
-    deletePost() {},
+    deletePost() {
+      axios
+        .delete("http://localhost:3000/api/post/deletepost", {
+          data: {
+            postId: this.id,
+          },
+        })
+        .then(() => window.location.reload())
+        .catch((error) => console.error(error))
+    },
     uploadFile() {
       this.image = this.$refs.imageInput.$refs.input.files[0]
     },

@@ -31,11 +31,10 @@
               comment_username == this.$store.state.user.username ||
               this.$store.state.user.roleId === 2
             "
-            class="deletePost--btn"
             elevation="2"
             fab
             small
-            @click="deletePost()"
+            @click="deleteComment()"
           >
             <v-icon color="red">mdi-delete</v-icon>
           </v-btn>
@@ -59,11 +58,29 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   props: ["comment_username", "created_at", "text", "image_url"],
 
   data() {
-    return {}
+    return {
+      id: this.$vnode.key,
+    }
+  },
+
+  methods: {
+    deleteComment() {
+      console.log(this.id)
+      axios
+        .delete("http://localhost:3000/api/comment/deletecomment", {
+          data: {
+            commentId: this.id,
+          },
+        })
+        .then(() => window.location.reload())
+        .catch((error) => console.error(error))
+    },
   },
 }
 </script>
