@@ -68,21 +68,6 @@ exports.deleteComment = (req, res, next) => {
   const userId = decodedToken.userId
   const commentId = req.body.commentId
 
-  // const deleteCom = () => {
-  //   // requête deleteComment
-  //   db.query(query.deleteComment, [commentId], (error, results) => {
-  //     // erreur, retourne l'erreur
-  //     if (error) {
-  //       console.error(error)
-  //       res
-  //         .status(401)
-  //         .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
-  //     }
-  //     // succès, retourne la réponse
-  //     res.status(201).json({ message: "Commentaire supprimé." })
-  //   })
-  // }
-
   // Vérifie que l'utilisateur a les droits pour supprimer le commentaire
   db.query(query.getSpecificComment, [commentId], (error, data, fields) => {
     if (error) {
