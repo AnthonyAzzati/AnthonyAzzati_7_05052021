@@ -1,5 +1,7 @@
-"use strict";
+"use strict"
 
+// paramètres de connexion à la base de données au niveau local
+//  /!\ ne pas exporter sur GitHub
 module.exports = {
   HOST: "localhost",
   USER: "root",
@@ -12,4 +14,4 @@ module.exports = {
     acquire: 30000,
     idle: 10000,
   },
-};
+}

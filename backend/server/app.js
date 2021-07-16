@@ -1,35 +1,41 @@
 "use strict"
 
+// importation des packages
 const express = require("express")
 const path = require("path")
 const helmet = require("helmet")
-const bodyParser = require("body-parser")
+const cors = require("cors")
+const history = require("connect-history-api-fallback")
+
 const app = express()
 
+// importation des routes du projet
 const usersRoutes = require("./routes/usersRoutes")
 const postsRoutes = require("./routes/postsRoutes")
 const commentsRoutes = require("./routes/commentsRoutes")
 
-app.use(bodyParser.json())
+// middleware contre l'injection SQL
 app.use(helmet())
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*")
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  )
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  )
-  next()
-})
+// middleware pour les CORS
+app.use(cors())
 
+// middleware pour transformer le cors du body en JSON
+app.use(express.json())
+
+// appel des routes de l'API
 app.use("/api/user", usersRoutes)
 app.use("/api/post", postsRoutes)
 app.use("/api/comment", commentsRoutes)
 
-app.use("/images", express.static(path.join(__dirname, "/images")))
+// permet l'utilisation du mode history de VueJS
+app.use(history())
 
+// permet d'utiliser les images stockées dans backend/server/images
+app.use(
+  "/backend/server/images",
+  express.static(path.join(__dirname, "images"))
+)
+
+// initiation du serveur express
 module.exports = app

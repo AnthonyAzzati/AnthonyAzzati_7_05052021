@@ -30,6 +30,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </div>
+
             <v-form @submit.prevent="createNewPost" v-model="formValidity">
               <v-textarea
                 v-model="title"
@@ -44,6 +45,7 @@
                 counter
                 required
               ></v-textarea>
+
               <v-textarea
                 v-model="text"
                 name="text"
@@ -64,15 +66,18 @@
                 class="d-flex justify-center align-center mt-2 py-0"
               >
                 <v-file-input
-                  v-model="file"
                   small-chips
-                  name="file"
+                  @change="uploadFile"
+                  type="file"
+                  name="image"
+                  ref="imageInput"
                   prepend-icon="mdi-image"
                   truncate-length="10"
                   color="deep-purple"
                   class="pr-4"
-                  accept="image/png, image/jpeg, image/bmp, image/webp, image/gif, video/mp4"
+                  accept="image/png, image/jpeg, image/bmp, image/webp, image/gif"
                 ></v-file-input>
+
                 <v-btn
                   type="submit"
                   elevation="2"
@@ -92,33 +97,46 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   data: () => ({
     title: "",
     text: "",
-    file: [],
     idUser: "",
+    username: "",
+    user: "",
+    image: null,
     dialog: false,
     formValidity: false,
     postRules: [(value) => value.length > 0 || "Ce champ doit être rempli"],
   }),
+
   methods: {
+    uploadFile() {
+      this.image = this.$refs.imageInput.$refs.input.files[0]
+    },
     createNewPost() {
+      let formData = new FormData()
+
       let user = JSON.parse(localStorage.getItem("user"))
       this.idUser = user.id
-      this.$store
-        .dispatch("createNewPost", {
-          title: this.title,
-          text: this.text,
-          file: this.file,
-          idUser: this.idUser,
-        })
+      this.username = user.username
+
+      formData.append("idUser", this.idUser)
+      formData.append("username", this.username)
+      formData.append("title", this.title)
+      formData.append("text", this.text)
+      formData.append("image", this.image)
+
+      axios
+        .post("//localhost:3000/api/post/createpost", formData)
         .then(() => {
-          this.$router.push({ name: "Dashboard" })
+          console.log("Post créé.")
         })
-        .catch((error) => {
-          console.error(error)
-        })
+        .catch((error) => console.log(error))
+
+      window.location.reload()
     },
   },
 }
