@@ -10,19 +10,35 @@
       </v-avatar>
 
       <div id="comment" class="ml-2 pa-2 rounded grey lighten-3">
-        <div class="d-flex align-center justify-space-between mb-2">
-          <p class="username">
-            {{ comment_username }}
-          </p>
+        <div class="d-flex justify-space-between">
+          <div class="d-flex flex-column justify-space-between mb-2">
+            <p class="username">
+              {{ comment_username }}
+            </p>
 
-          <p id="comment--date" class="grey--text">
-            {{
-              new Date(created_at).toLocaleDateString("fr-FR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            }}
-          </p>
+            <p id="comment--date" class="grey--text">
+              {{
+                new Date(created_at).toLocaleDateString("fr-FR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              }}
+            </p>
+          </div>
+
+          <v-btn
+            v-if="
+              comment_username == this.$store.state.user.username ||
+              this.$store.state.user.roleId === 2
+            "
+            class="deletePost--btn"
+            elevation="2"
+            fab
+            small
+            @click="deletePost()"
+          >
+            <v-icon color="red">mdi-delete</v-icon>
+          </v-btn>
         </div>
 
         <p class="mb-2">
