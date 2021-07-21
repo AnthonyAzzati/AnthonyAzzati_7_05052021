@@ -24,15 +24,12 @@ Il s'agit du réseau social interne de l'entreprise fictive Groupomania.
 
 
   
-## Demo
-
-L'application est hébergée et disponible à l'adresse suivante : https://www.groupomania.anthonyazzati.fr/
   
 ## Installation
 
-Toutefois il est possible de faire tourner l'application localement.
+Afin de faire tourner l'application vous aurez besoin de NPM, de Node.js ainsi que node-sass d'installés localement sur votre ordinateur.
 
-Afin de le faire fonctionner vous aurez besoin de NPM, de Node.js ainsi que node-sass d'installés localement sur votre ordinateur.
+Utilisez le fichier "groupomania.sql" afin de créer votre base de données MySQL.
 
 Cloner le project
 
@@ -44,7 +41,7 @@ Récupérer le fichier **process.env** disponible avec les livrables et le place
 
 Dans le dossier **server** (situé dans le dossier **backend**) créer un dossier **images**.
 
-Dans le dossier **backend/server**
+Dans le dossier **backend**
 ```bash
   npm install
   nodemon server
@@ -58,6 +55,11 @@ A la **racine** du project
 
 L'application devraît être disponible à l'adresse suivante :
 http://localhost:8080/
+
+## INFORMATION IMPORTANTE
+
+Afin de créer le compte modérateur en local, créer le compte désiré via l'application, une fois cela fait, connecter vous à votre base de données, sélectionner l'utilisateur et passer son rôle de "3 - user" à "2 - moderator".
+
 ## Authors
 
 - [@AnthonyAzzati](https://github.com/AnthonyAzzati/)
