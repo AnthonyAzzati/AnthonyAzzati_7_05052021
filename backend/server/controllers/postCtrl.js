@@ -79,28 +79,33 @@ exports.deletePost = (req, res, next) => {
       })
     }
 
-    if (data[0].image_url != null) {
-      const filename = data[0].image_url.split("/backend/server/images/")[1]
+    db.query(query.getAllComments, [postId], (error, data, fields) => {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].image_url != null) {
+          const filename = data[i].image_url.split("/backend/server/images/")[1]
 
-      fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
-        if (error) {
-          console.error(error)
-        } else {
-          db.query(query.deletePost, [postId], (error, data, fields) => {
+          fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
             if (error) {
-              return res.status(404).json({ error })
+              console.error(error)
             }
-            res.status(201).json({ message: "Publication supprimée" })
           })
         }
-      })
-    } else {
-      db.query(query.deletePost, [postId], (error, data, fields) => {
-        if (error) {
-          return res.status(404).json({ error })
-        }
-        res.status(201).json({ message: "Publication supprimée" })
-      })
-    }
+      }
+    })
+
+    const filename = data[0].image_url.split("/backend/server/images/")[1]
+    fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
+      if (error) {
+        console.error(error)
+      }
+    })
+
+    db.query(query.deletePost, [postId], (error, data, fields) => {
+      if (error) {
+        return res.status(404).json({ error })
+      }
+
+      res.status(201).json({ message: "Publication supprimée" })
+    })
   })
 }
