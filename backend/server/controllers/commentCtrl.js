@@ -62,7 +62,6 @@ exports.createComment = (req, res, next) => {
   )
 }
 
-// Supprime un commentaire
 exports.deleteComment = (req, res, next) => {
   // vérifie le token
   const token = req.headers.authorization.split(" ")[1]
@@ -78,24 +77,38 @@ exports.deleteComment = (req, res, next) => {
       })
     }
 
-    const filename = data[0].image_url.split("/backend/server/images/")[1]
+    if (data[0].image_url != null) {
+      const filename = data[0].image_url.split("/backend/server/images/")[1]
 
-    fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
-      if (error) {
-        console.error(error)
-      } else {
-        db.query(query.deleteComment, [commentId], (error, results) => {
-          // erreur, retourne l'erreur
-          if (error) {
-            console.error(error)
-            res
-              .status(401)
-              .json({ message: "Vous ne pouvez pas supprimer ce commentaire." })
-          }
-          // succès, retourne la réponse
-          res.status(201).json({ message: "Commentaire supprimé." })
-        })
-      }
-    })
+      fs.unlink(path.resolve() + "/server/images/" + filename, (error) => {
+        if (error) {
+          console.error(error)
+        } else {
+          db.query(query.deleteComment, [commentId], (error, results) => {
+            // erreur, retourne l'erreur
+            if (error) {
+              console.error(error)
+              res.status(401).json({
+                message: "Vous ne pouvez pas supprimer ce commentaire.",
+              })
+            }
+            // succès, retourne la réponse
+            res.status(201).json({ message: "Commentaire supprimé." })
+          })
+        }
+      })
+    } else {
+      db.query(query.deleteComment, [commentId], (error, results) => {
+        // erreur, retourne l'erreur
+        if (error) {
+          console.error(error)
+          res.status(401).json({
+            message: "Vous ne pouvez pas supprimer ce commentaire.",
+          })
+        }
+        // succès, retourne la réponse
+        res.status(201).json({ message: "Commentaire supprimé." })
+      })
+    }
   })
 }
