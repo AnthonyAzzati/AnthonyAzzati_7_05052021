@@ -44,6 +44,10 @@ Dans le dossier **server** (situé dans le dossier **backend**) créer un dossie
 Dans le dossier **backend/server**
 ```bash
   npm install
+```
+
+Dans le dossier **backend**
+```bash
   nodemon server
 ```
 
